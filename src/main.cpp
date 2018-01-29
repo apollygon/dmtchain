@@ -37,7 +37,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x8d1c1357d1d0fd2609d581f9bd5c466e75057f72e1b4fedb0dcb5b246affb182");
+uint256 hashGenesisBlock("0x91400b865b31800b8f00f4886dd1fe71dc52cfadba79cb40a184511d9edf8d99");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // DMTchain: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -1090,12 +1090,12 @@ uint256 static GetOrphanRoot(const CBlockHeader* pblock)
     //Blocks pay 1666 DMT per block until halving and 250000 DMT every 5k blocks until 80k blocks, then blocks pay 500000 DMT every 50k blocks from block 100k to block 300k. After that on block 420K and 420001 payout is 1 million DMT. Finally on block 84k block reward is 5 million DMT. Happy mining!
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 1666 * COIN;
+    int64 nSubsidy = 3333 * COIN;
     if(nHeight == 2)  
     {
-        nSubsidy = 1200000000 * COIN;
+        nSubsidy = 2100000000 * COIN;  //Premine
     }
-    else if(nHeight == 5000)  
+    else if(nHeight == 5000)           //Ublock Begin
     {
         nSubsidy = 250000 * COIN;
     }
@@ -1189,7 +1189,63 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     }
     else if(nHeight == 840000)  
     {
+        nSubsidy = 1500000 * COIN;
+    }
+    else if(nHeight == 1000000)  
+    {
+        nSubsidy = 1500000 * COIN;
+    }
+    else if(nHeight == 1100000)  
+    {
+        nSubsidy = 1500000 * COIN;
+    }
+    else if(nHeight == 1200000)  
+    {
+        nSubsidy = 3000000 * COIN;
+    }
+    else if(nHeight == 1300000)  
+    {
+        nSubsidy = 3500000 * COIN;
+    }
+    else if(nHeight == 1400000)
+    {
+        nSubsidy = 4000000 * COIN;
+    }
+    else if(nHeight == 1500000)
+    {
+        nSubsidy = 4500000 * COIN;
+    }
+    else if(nHeight == 2000000)  
+    {
         nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 2500000)  
+    {
+        nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 3000000)  
+    {
+        nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 3500000)  
+    {
+        nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 4000000)  
+    {
+        nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 4500000)  
+    {
+        nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 5000000)  
+    {
+        nSubsidy = 5000000 * COIN;
+    }
+    else if(nHeight == 5000001)  
+    {
+        nSubsidy = 100000000 * COIN;
     }
     // Subsidy is cut in half every 420000 blocks, which will occur approximately every 2 years
     nSubsidy >>= (nHeight / 420000); // DMTchain: 420k blocks in ~2 years
@@ -2848,7 +2904,7 @@ bool LoadBlockIndex()
         pchMessageStart[1] = 0xd6;
         pchMessageStart[2] = 0xd7;
         pchMessageStart[3] = 0xdc;
-        hashGenesisBlock = uint256("0x8d1c1357d1d0fd2609d581f9bd5c466e75057f72e1b4fedb0dcb5b246affb182");
+        hashGenesisBlock = uint256("0x91400b865b31800b8f00f4886dd1fe71dc52cfadba79cb40a184511d9edf8d99");
     }
 
     //
@@ -2886,7 +2942,7 @@ bool InitBlockIndex() {
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 1666 * COIN;
+        txNew.vout[0].nValue = 3333 * COIN;
         txNew.vout[0].scriptPubKey = CScript() << ParseHex("b2c3e5a43a13a9d0925117e41626d7b87096443a7615402fcc48bf1e11f4cdb2d1dff3847448c4f6951ce615fceb76af68605f1887327258e15dd60bd79bcb0338") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
@@ -2895,7 +2951,7 @@ bool InitBlockIndex() {
         block.nVersion = 1;
         block.nTime    = 1516277350;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 1890226;
+        block.nNonce   = 903862;
 
         if (fTestNet)
         {
@@ -2908,7 +2964,7 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x87778c2855762b5c6b6bac3ecfefd3ab83eea6c31bf9c1741259d6eded473c69"));
+        assert(block.hashMerkleRoot == uint256("0x1e7d866e4bf8436a56093487a40ec47cfce7f31e65cc674fe1fc8b8d9506fc7a"));
         if (true && block.GetHash() != hashGenesisBlock)
         {
             printf("Searching for genesis block...\n");
